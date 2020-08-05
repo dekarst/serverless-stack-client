@@ -20,7 +20,7 @@ const Content = styled.div`
   padding: 1em;
   background: green;
   border-radius: 50%;
-  border-bottom: 5em double red;
+  border-bottom: 12em double red;
 `
 
 const spin = keyframes`

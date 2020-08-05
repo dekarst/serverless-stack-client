@@ -1,26 +1,52 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import styled, { keyframes } from 'styled-components'
+import logo from './logo.svg'
+import Routes from './Routes'
+import Nav from './containers/Nav'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
-}
+const Container = styled.div`
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  font-size: 2em;
+  background-color: #101010;
+  color: chartreuse;
+  text-align: center;
+`
 
-export default App;
+const Content = styled.div`
+  padding: 1em;
+  background: green;
+  border-radius: 50%;
+  border-bottom: 5em double red;
+`
+
+const spin = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+`
+
+const Logo = styled.img`
+  height: 25vmin;
+  animation: ${spin} infinite .4s linear;
+  cursor: pointer;
+`
+
+const App = () => (
+  <Container>
+    <Nav />
+    <Content>
+      <Logo src={logo} className='logo' alt='logo' />
+      <Logo src={logo} className='logo' alt='logo' />
+      <Routes />
+    </Content>
+  </Container>
+)
+
+export default App

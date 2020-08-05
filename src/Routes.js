@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom'
 import Home from './containers/Home'
 import Login from './containers/Login'
 import Signup from './containers/Signup'
+import NotFound from './containers/NotFound'
 
 const Routes = () => (
   <Switch>
@@ -14,6 +15,9 @@ const Routes = () => (
     </Route>
     <Route path='/signup'>
       <Signup />
+    </Route>
+    <Route>
+      <NotFound />
     </Route>
   </Switch>
 )

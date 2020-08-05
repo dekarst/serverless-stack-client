@@ -15,8 +15,8 @@ const Container = styled.div`
 const Nav = () => (
   <Container>
     <Link to='/'>Home</Link>
-    <Link to='/login'>Login</Link>
-    <Link to='/signup'>Signup</Link>
+    <Link to='/login'>Log In</Link>
+    <Link to='/signup'>Sign Up</Link>
   </Container>
 )
 

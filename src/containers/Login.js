@@ -1,10 +1,11 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { useHistory } from 'react-router-dom'
 import { Auth } from 'aws-amplify'
 import { useAppContext } from '../libs/contextLib'
-import { useHistory } from 'react-router-dom'
-import LoaderButton from '../components/LoaderButton'
 import { onError } from '../libs/errorLib'
+import useFormFields from '../hooks/useFormFields'
+import LoaderButton from '../components/LoaderButton'
 
 const Form = styled.form`
   width: 50%;
@@ -22,19 +23,23 @@ const Form = styled.form`
 `
 
 const Login = () => {
-  const [email, setEmail] = useState('')
-  const [password, setPassword] = useState('')
-  const [isLoading, setIsLoading] = useState(false)
-  const { userHasAuthenticated } = useAppContext()
   const history = useHistory()
+  const { userHasAuthenticated } = useAppContext()
 
-  const validateForm = () => email.length > 0 && password.length > 0
+  const [isLoading, setIsLoading] = useState(false)
+  const [fields, setFields] = useFormFields({
+    email: '',
+    password: ''
+  });
+
+
+  const validateForm = () => fields.email.length > 0 && fields.password.length > 0
 
   const handleSubmit = async (event) => {
     event.preventDefault()
     setIsLoading(true)
     try {
-      await Auth.signIn(email, password)
+      await Auth.signIn(fields.email, fields.password)
       userHasAuthenticated(true)
       history.push('/')
     } catch (e) {
@@ -51,16 +56,18 @@ const Login = () => {
           <input
             autoFocus
             type='email'
-            value={email}
-            onChange={e => setEmail(e.target.value)}
+            id='email'
+            value={fields.email}
+            onChange={setFields}
           />
         </div>
         <div>
           <label>Pass</label>
           <input
-            value={password}
-            onChange={e => setPassword(e.target.value)}
             type='password'
+            id='password'
+            value={fields.password}
+            onChange={setFields}
           />
         </div>
         <LoaderButton isLoading={isLoading} disabled={!validateForm()} type='submit'>

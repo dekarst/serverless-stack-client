@@ -1,8 +1,13 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { Auth } from 'aws-amplify'
+import { useAppContext } from '../libs/contextLib'
+import { useHistory } from 'react-router-dom'
+import LoaderButton from '../components/LoaderButton'
+import { onError } from '../libs/errorLib'
 
 const Form = styled.form`
-  width: 55%;
+  width: 50%;
   margin: 1em auto;
   display: flex;
   flex-direction: column;
@@ -17,16 +22,25 @@ const Form = styled.form`
 `
 
 const Login = () => {
-  
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState('')
+  const [password, setPassword] = useState('')
+  const [isLoading, setIsLoading] = useState(false)
+  const { userHasAuthenticated } = useAppContext()
+  const history = useHistory()
 
-  function validateForm() {
-    return email.length > 0 && password.length > 0;
-  }
+  const validateForm = () => email.length > 0 && password.length > 0
 
-  function handleSubmit(event) {
-    event.preventDefault();
+  const handleSubmit = async (event) => {
+    event.preventDefault()
+    setIsLoading(true)
+    try {
+      await Auth.signIn(email, password)
+      userHasAuthenticated(true)
+      history.push('/')
+    } catch (e) {
+      onError(e)
+      setIsLoading(false)
+    }
   }
   
   return (
@@ -36,7 +50,7 @@ const Login = () => {
           <label>Email</label>
           <input
             autoFocus
-            type="email"
+            type='email'
             value={email}
             onChange={e => setEmail(e.target.value)}
           />
@@ -46,12 +60,12 @@ const Login = () => {
           <input
             value={password}
             onChange={e => setPassword(e.target.value)}
-            type="password"
+            type='password'
           />
         </div>
-        <button disabled={!validateForm()} type="submit">
+        <LoaderButton isLoading={isLoading} disabled={!validateForm()} type='submit'>
           Login
-        </button>
+        </LoaderButton>
       </Form>
     </div>
   )

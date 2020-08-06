@@ -1,10 +1,14 @@
 import React from 'react'
+import { useAppContext } from '../libs/contextLib'
 
-const Home = () => (
-  <div>
-    <h1>Hi!</h1>
-    <p>Log In or Sign Up</p>
-  </div>
-)
+const Home = () => {
+  const { isAuthenticated } = useAppContext()
+  
+  return (
+    <div>
+      <h1>{isAuthenticated ? 'Welcome!' : 'Hi!'}</h1>
+    </div>
+  )
+}
 
 export default Home

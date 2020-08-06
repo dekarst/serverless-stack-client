@@ -1,6 +1,8 @@
 import React from 'react'
 import styled from 'styled-components'
-import { Link } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
+import { Auth } from 'aws-amplify'
+import { useAppContext } from '../libs/contextLib'
 
 const Container = styled.div`
   position: absolute;
@@ -12,12 +14,28 @@ const Container = styled.div`
   }
 `
 
-const Nav = () => (
-  <Container>
-    <Link to='/'>Home</Link>
-    <Link to='/login'>Log In</Link>
-    <Link to='/signup'>Sign Up</Link>
-  </Container>
-)
+const Nav = () => {
+  const { isAuthenticated, userHasAuthenticated } = useAppContext()
+  const history = useHistory()
+  
+  const handleLogout = async () =>  {
+    await Auth.signOut()
+    userHasAuthenticated(false)
+    history.push('/login')
+  }
+
+  return (
+    <Container>
+      {isAuthenticated
+        ? <Link onClick={handleLogout} to='/'>Logout</Link>
+        : <>
+            <Link to='/'>Home</Link>
+            <Link to='/login'>Log In</Link>
+            <Link to='/signup'>Sign Up</Link>
+          </>
+      }
+    </Container>
+  )
+}
 
 export default Nav

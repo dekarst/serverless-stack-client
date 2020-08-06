@@ -22,7 +22,7 @@ const Form = styled.form`
   }
 `
 
-export default function Signup() {
+const Signup = () => {
   const history = useHistory()
   const { userHasAuthenticated } = useAppContext()
 
@@ -146,3 +146,5 @@ export default function Signup() {
     </div>
   )
 }
+
+export default Signup

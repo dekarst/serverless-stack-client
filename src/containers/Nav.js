@@ -27,7 +27,11 @@ const Nav = () => {
   return (
     <Container>
       {isAuthenticated
-        ? <Link onClick={handleLogout} to='/'>Logout</Link>
+        ? <>
+            <Link to='/'>Home</Link>
+            <Link to='/notes/new'>Message</Link>
+            <Link onClick={handleLogout} to='/'>Logout</Link>
+          </>
         : <>
             <Link to='/'>Home</Link>
             <Link to='/login'>Log In</Link>

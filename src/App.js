@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import styled from 'styled-components'
 import { Auth } from 'aws-amplify'
-import { AppContext } from './libs/contextLib'
+import { AppContext } from './libs/context'
 import Nav from './containers/Nav'
 import Eyes from './containers/Eyes'
 import Routes from './Routes'
@@ -23,8 +23,6 @@ const Content = styled.div`
   padding: 1em;
   background: green;
   border-radius: 50%;
-  /* border-left: ${props => `${400*(.2*props.w-props.x)/props.w}px solid darkgreen`};
-  border-right: ${props => `${1200*(props.x-.8*props.w)/props.w}px solid darkgreen`};  */
   border-bottom: ${props => `${(1-props.y/props.h)*15-7}em double red`};
   background-clip: content-box; 
 `

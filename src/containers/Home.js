@@ -1,5 +1,5 @@
 import React from 'react'
-import { useAppContext } from '../libs/contextLib'
+import { useAppContext } from '../libs/context'
 
 const Home = () => {
   const { isAuthenticated } = useAppContext()

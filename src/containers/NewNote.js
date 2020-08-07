@@ -2,8 +2,8 @@ import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { API } from 'aws-amplify'
-import { s3Upload } from '../libs/awsLib'
-import { onError } from '../libs/errorLib'
+import { s3Upload } from '../libs/aws'
+import { onError } from '../libs/error'
 import config from '../config'
 import LoaderButton from '../components/LoaderButton'
 
@@ -49,16 +49,14 @@ const NewNote = () => {
     try {
       const attachment = file.current ? await s3Upload(file.current) : null
       await createNote({ content, attachment })
-      history.push('/')
+      history.push('/notes')
     } catch (e) {
       onError(e)
       setIsLoading(false)
     }
   }
 
-  const createNote = (note) => (
-    API.post('notes', '/notes', { body: note })
-  )
+  const createNote = (note) => API.post('notes', '/notes', { body: note })
 
   return (
     <div className='NewNote'>

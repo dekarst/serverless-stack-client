@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { Auth } from 'aws-amplify'
-import { useAppContext } from '../libs/contextLib'
-import { onError } from '../libs/errorLib'
+import { useAppContext } from '../libs/context'
+import { onError } from '../libs/error'
 import useFormFields from '../hooks/useFormFields'
 import LoaderButton from '../components/LoaderButton'
 
@@ -40,7 +40,7 @@ const Login = () => {
     setIsLoading(true)
     try {
       await Auth.signIn(fields.email, fields.password)
-      userHasAuthenticated(true)
+      userHasAuthenticated(fields.email)
       history.push('/')
     } catch (e) {
       onError(e)

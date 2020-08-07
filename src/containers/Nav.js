@@ -2,7 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { Link, useHistory } from 'react-router-dom'
 import { Auth } from 'aws-amplify'
-import { useAppContext } from '../libs/contextLib'
+import { useAppContext } from '../libs/context'
 
 const Container = styled.div`
   position: absolute;
@@ -28,8 +28,9 @@ const Nav = () => {
     <Container>
       {isAuthenticated
         ? <>
-            <Link to='/'>Home</Link>
-            <Link to='/notes/new'>Message</Link>
+            <Link to='/'>{isAuthenticated.toString().split('@')[0]}</Link>
+            <Link to='/notes'>Notes</Link>
+            <Link to='/notes/new'>Add New</Link>
             <Link onClick={handleLogout} to='/'>Logout</Link>
           </>
         : <>

@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
 import { API } from 'aws-amplify'
+import { s3Upload } from '../libs/awsLib'
 import { onError } from '../libs/errorLib'
 import config from '../config'
 import LoaderButton from '../components/LoaderButton'
@@ -38,14 +39,16 @@ const NewNote = () => {
     event.preventDefault()
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
       alert(
-        `Please pick a file smaller than ${config.MAX_ATTACHMENT_SIZE /
-          1000000} MB.`
+        `Please pick a file smaller than ${
+          config.MAX_ATTACHMENT_SIZE / 1000000
+        } MB.`
       )
       return
     }
     setIsLoading(true)
     try {
-      await createNote({ content })
+      const attachment = file.current ? await s3Upload(file.current) : null
+      await createNote({ content, attachment })
       history.push('/')
     } catch (e) {
       onError(e)

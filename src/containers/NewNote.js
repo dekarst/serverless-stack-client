@@ -72,7 +72,6 @@ const NewNote = () => {
           <input
             type='file'
             id='file'
-            ref={file}
             onChange={handleFileChange}
           />
         </div>

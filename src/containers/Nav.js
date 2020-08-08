@@ -15,20 +15,20 @@ const Container = styled.div`
 `
 
 const Nav = () => {
-  const { isAuthenticated, userHasAuthenticated } = useAppContext()
+  const { user, setUser } = useAppContext()
   const history = useHistory()
   
   const handleLogout = async () =>  {
     await Auth.signOut()
-    userHasAuthenticated(false)
+    setUser(false)
     history.push('/login')
   }
 
   return (
     <Container>
-      {isAuthenticated
+      {user
         ? <>
-            <Link to='/'>{isAuthenticated.toString().split('@')[0]}</Link>
+            <Link to='/'>{user.toString().split('@')[0]}</Link>
             <Link to='/notes'>Notes</Link>
             <Link to='/notes/new'>Add New</Link>
             <Link onClick={handleLogout} to='/'>Logout</Link>

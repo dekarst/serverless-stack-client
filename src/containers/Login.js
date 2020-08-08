@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
-import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
+import styled from 'styled-components'
 import { Auth } from 'aws-amplify'
 import { useAppContext } from '../libs/context'
 import { onError } from '../libs/error'
@@ -24,7 +24,7 @@ const Form = styled.form`
 
 const Login = () => {
   const history = useHistory()
-  const { userHasAuthenticated } = useAppContext()
+  const { setUser } = useAppContext()
 
   const [isLoading, setIsLoading] = useState(false)
   const [fields, setFields] = useFormFields({
@@ -40,7 +40,7 @@ const Login = () => {
     setIsLoading(true)
     try {
       await Auth.signIn(fields.email, fields.password)
-      userHasAuthenticated(fields.email)
+      setUser(fields.email)
       history.push('/')
     } catch (e) {
       onError(e)

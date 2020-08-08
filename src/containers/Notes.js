@@ -25,15 +25,14 @@ const Info = styled.div`
   margin: 0;
 `
 
-
 const Notes = () => {
   const [notes, setNotes] = useState([])
-  const { isAuthenticated } = useAppContext()
+  const { user } = useAppContext()
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const onLoad = async () => {
-      if(!isAuthenticated) return
+      if(!user) return
       try {
         const notes = await loadNotes()
         setNotes(notes)
@@ -44,14 +43,14 @@ const Notes = () => {
     }
 
     onLoad()
-  }, [isAuthenticated])
+  }, [user])
   
   const loadNotes = () => API.get('notes', '/notes')
 
   const renderNotesList = notes => (
     <Container>
       {notes.map((note, i) => (
-        <Link to={`/notes/${note.noteId}`}>
+        <Link key={note.noteId} to={`/notes/${note.noteId}`}>
           <Note>
             <Info>{new Date(note.createdAt).toLocaleString()}</Info>
             {note.content}
@@ -72,7 +71,7 @@ const Notes = () => {
     </>
   )
 
-  return isAuthenticated ? renderNotes() : renderInfo()
+  return user ? renderNotes() : renderInfo()
 }
 
 export default Notes

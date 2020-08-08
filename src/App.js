@@ -29,7 +29,7 @@ const Content = styled.div`
 
 const App = () => {
   const [isAuthenticating, setIsAuthenticating] = useState(true)
-  const [isAuthenticated, userHasAuthenticated] = useState(false)
+  const [user, setUser] = useState(false)
   const { x, y } = useMousePosition()
 
   useEffect(() => {
@@ -39,7 +39,7 @@ const App = () => {
   const onLoad = async () => {
     try {
       await Auth.currentSession()
-      userHasAuthenticated(true)
+      setUser(true)
     }
     catch(e) {
       if (e !== 'No current user') {
@@ -51,7 +51,7 @@ const App = () => {
 
   return (
     !isAuthenticating &&
-    <AppContext.Provider value={{ isAuthenticated, userHasAuthenticated }}>
+    <AppContext.Provider value={{ user, setUser }}>
       <Container>
         <Nav />
         <Content 

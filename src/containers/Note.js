@@ -37,12 +37,14 @@ const Note = () => {
   const validateForm = () => content.length > 0
 
   const formatFilename = (str) => str.replace(/^\w+-/, '')
+
+  const image = (name) => name.match(/.(jpg|jpeg|png|gif|svg)$/i)
   
   const handleFileChange = (event) => {
     file.current = event.target.files[0]
   }
   
-  const handleSubmit =  async (event) => {
+  const handleSubmit = async (event) => {
     let attachment
     event.preventDefault()
     if (file.current && file.current.size > config.MAX_ATTACHMENT_SIZE) {
@@ -77,24 +79,22 @@ const Note = () => {
               onChange={e => setContent(e.target.value)}
             />
           </div>
+          <div>
+            {image(note.attachment) && <img src={note.attachmentURL} />}
+          </div>
           {note.attachment && (
-            <form>
-              Attachment
-              <div>
-                <a
-                  target='_blank'
-                  rel='noopener noreferrer'
-                  href={note.attachmentURL}
-                >
-                  {formatFilename(note.attachment)}
-                </a>
-                </div>
-            </form>
+            <a
+              target='_blank'
+              rel='noopener noreferrer'
+              href={note.attachmentURL}
+            >
+              {formatFilename(note.attachment)}
+            </a>
           )}
-          <form id='file'>
+          <div>
             {!note.attachment && <label>Attachment</label>}
             <input onChange={handleFileChange} type='file' />
-          </form>
+          </div>
           <LoaderButton
             type='submit'
             isLoading={isLoading}

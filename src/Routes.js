@@ -22,11 +22,11 @@ const Routes = () => (
     <Route exact path='/notes/new'>
       <NewNote />
     </Route>
-    <Route exact path='/notes'>
-      <Notes />
-    </Route>
     <Route exact path='/notes/:id'>
       <Note />
+    </Route>
+    <Route path='/notes'>
+      <Notes />
     </Route>
     <Route>
       <NotFound />

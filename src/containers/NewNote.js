@@ -8,16 +8,15 @@ import config from '../config'
 import LoaderButton from '../components/LoaderButton'
 
 const Form = styled.form`
-  width: 50%;
+  width: 80%;
   margin: 1em auto;
   display: flex;
   flex-direction: column;
   & textarea {
     width: 100%;
-    height: 7em;
+    height: 10em;
   }
   & button {
-    text-align: center;
     font-size: 1em;
   }
 `

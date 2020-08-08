@@ -2,9 +2,24 @@ import React, { useRef, useState, useEffect } from 'react'
 import { useParams, useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { API, Storage } from 'aws-amplify'
+import { s3Upload } from '../libs/aws'
 import { onError } from '../libs/error'
 import config from '../config'
 import LoaderButton from '../components/LoaderButton'
+
+const Form = styled.form`
+  width: 80%;
+  margin: 1em auto;
+  display: flex;
+  flex-direction: column;
+  & textarea {
+    width: 100%;
+    height: 10em;
+  }
+  & button {
+    font-size: 1em;
+  }
+`
 
 const Note = () => {
   const { id } = useParams()
@@ -36,13 +51,15 @@ const Note = () => {
 
   const validateForm = () => content.length > 0
 
-  const formatFilename = (str) => str.replace(/^\w+-/, '')
+  const isImage = (name) => name && name.match(/.(jpg|jpeg|png|gif|svg)$/i)
 
-  const image = (name) => name.match(/.(jpg|jpeg|png|gif|svg)$/i)
+  const formatFilename = (str) => str.replace(/^\w+-/, '')
   
   const handleFileChange = (event) => {
     file.current = event.target.files[0]
   }
+
+  const saveNote = (note) => API.put('notes', `/notes/${id}`, { body: note })
   
   const handleSubmit = async (event) => {
     let attachment
@@ -56,6 +73,19 @@ const Note = () => {
       return
     }
     setIsLoading(true)
+    try {
+      if (file.current) {
+        attachment = await s3Upload(file.current)
+      }
+      await saveNote({
+        content,
+        attachment: attachment || note.attachment
+      })
+      history.push('/notes')
+    } catch (e) {
+      onError(e)
+      setIsLoading(false)
+    }
   }
   
   const handleDelete = async (event) => {
@@ -70,18 +100,18 @@ const Note = () => {
   }
   
   return (
-    <div className='Notes'>
+    <div>
       {note && (
-        <form onSubmit={handleSubmit}>
-          <div id='content'>
-            <textarea
-              value={content}
-              onChange={e => setContent(e.target.value)}
-            />
-          </div>
+        <Form onSubmit={handleSubmit}>
+          <textarea 
+            value={content}
+            onChange={e => setContent(e.target.value)}
+          />
+
           <div>
-            {image(note.attachment) && <img src={note.attachmentURL} />}
+            {isImage(note.attachment) && <img alt='note-img' src={note.attachmentURL} />}
           </div>
+
           {note.attachment && (
             <a
               target='_blank'
@@ -91,24 +121,23 @@ const Note = () => {
               {formatFilename(note.attachment)}
             </a>
           )}
+
           <div>
-            {!note.attachment && <label>Attachment</label>}
             <input onChange={handleFileChange} type='file' />
           </div>
+
           <LoaderButton
-            type='submit'
-            isLoading={isLoading}
+            onClick={handleSubmit} 
+            type='submit' 
+            isLoading={isLoading} 
             disabled={!validateForm()}
-          >
+            >
             Save
           </LoaderButton>
-          <LoaderButton
-            onClick={handleDelete}
-            isLoading={isDeleting}
-          >
+          <LoaderButton onClick={handleDelete} isLoading={isDeleting}>
             Delete
           </LoaderButton>
-        </form>
+        </Form>
       )}
     </div>
   )

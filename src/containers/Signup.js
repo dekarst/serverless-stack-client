@@ -59,7 +59,7 @@ const Signup = () => {
     }
   }
 
-  async function handleConfirmationSubmit(event) {
+  const handleConfirmationSubmit = async (event) => {
     event.preventDefault()
     setIsLoading(true)
     try {

@@ -1,4 +1,4 @@
-export function onError(error) {
+export const onError = (error) => {
   let message = error.toString()
 
   if (!(error instanceof Error) && error.message) {

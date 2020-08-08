@@ -60,6 +60,8 @@ const Note = () => {
   }
 
   const saveNote = (note) => API.put('notes', `/notes/${id}`, { body: note })
+
+  const deleteNote = () => API.del('notes', `/notes/${id}`)
   
   const handleSubmit = async (event) => {
     let attachment
@@ -97,6 +99,13 @@ const Note = () => {
       return
     }
     setIsDeleting(true)
+    try {
+      await deleteNote()
+      history.push('/notes')
+    } catch (e) {
+      onError(e)
+      setIsDeleting(false)
+    }
   }
   
   return (
@@ -127,14 +136,16 @@ const Note = () => {
           </div>
 
           <LoaderButton
-            onClick={handleSubmit} 
             type='submit' 
             isLoading={isLoading} 
             disabled={!validateForm()}
             >
             Save
           </LoaderButton>
-          <LoaderButton onClick={handleDelete} isLoading={isDeleting}>
+          <LoaderButton 
+            onClick={handleDelete} 
+            isLoading={isDeleting}
+          >
             Delete
           </LoaderButton>
         </Form>

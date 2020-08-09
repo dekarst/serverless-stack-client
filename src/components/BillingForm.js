@@ -72,8 +72,7 @@ const BillingForm = ({ isLoading, onSubmit, ...props }) => {
         onChange={e => setIsCardComplete(e.complete)}
         style={{
           base: { 
-            fontSize: '1.1em',
-            lineHeight: '2em', 
+            fontSize: '16px',
             fontFamily: 'sans-serif',
             color: 'chartreuse'
           }

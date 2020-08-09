@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { Auth } from 'aws-amplify'
 import { useAppContext } from '../libs/context'
@@ -23,7 +22,6 @@ const Form = styled.form`
 `
 
 const Login = () => {
-  const history = useHistory()
   const { setUser } = useAppContext()
 
   const [isLoading, setIsLoading] = useState(false)
@@ -41,7 +39,6 @@ const Login = () => {
     try {
       await Auth.signIn(fields.email, fields.password)
       setUser(fields.email)
-      history.push('/')
     } catch (e) {
       onError(e)
       setIsLoading(false)

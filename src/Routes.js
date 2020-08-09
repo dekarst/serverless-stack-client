@@ -8,30 +8,32 @@ import Notes from './containers/Notes'
 import Note from './containers/Note'
 import Pay from './containers/Pay'
 import NotFound from './containers/NotFound'
+import AuthRoute from './components/AuthRoute'
+import UnauthRoute from './components/UnauthRoute'
 
 const Routes = () => (
   <Switch>
     <Route exact path='/'>
       <Home />
     </Route>
-    <Route path='/login'>
+    <UnauthRoute path='/login'>
       <Login />
-    </Route>
-    <Route path='/signup'>
+    </UnauthRoute>
+    <UnauthRoute path='/signup'>
       <Signup />
-    </Route>
-    <Route exact path='/notes/new'>
+    </UnauthRoute>
+    <AuthRoute exact path='/notes/new'>
       <NewNote />
-    </Route>
-    <Route exact path='/notes/:id'>
+    </AuthRoute>
+    <AuthRoute exact path='/notes/:id'>
       <Note />
-    </Route>
-    <Route path='/notes'>
+    </AuthRoute>
+    <AuthRoute path='/notes'>
       <Notes />
-    </Route>
-    <Route exact path='/Pay'>
+    </AuthRoute>
+    <AuthRoute exact path='/Pay'>
       <Pay />
-    </Route>
+    </AuthRoute>
     <Route>
       <NotFound />
     </Route>

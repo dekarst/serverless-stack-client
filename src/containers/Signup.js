@@ -87,9 +87,7 @@ const Signup = () => {
         />
       </div>
       <LoaderButton
-        block
         type='submit'
-        bsSize='large'
         isLoading={isLoading}
         disabled={!validateConfirmationForm()}
       >
@@ -129,9 +127,7 @@ const Signup = () => {
         />
       </div>
       <LoaderButton
-        block
         type='submit'
-        bsSize='large'
         isLoading={isLoading}
         disabled={!validateForm()}
       >

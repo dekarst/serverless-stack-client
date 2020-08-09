@@ -30,7 +30,8 @@ const Nav = () => {
         ? <>
             <Link to='/'>{user.toString().split('@')[0]}</Link>
             <Link to='/notes'>Notes</Link>
-            <Link to='/notes/new'>Add New</Link>
+            <Link to='/notes/new'>New</Link>
+            <Link to="/pay">Pay</Link>
             <Link onClick={handleLogout} to='/'>Logout</Link>
           </>
         : <>

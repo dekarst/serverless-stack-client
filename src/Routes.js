@@ -3,9 +3,10 @@ import { Route, Switch } from 'react-router-dom'
 import Home from './containers/Home'
 import Login from './containers/Login'
 import Signup from './containers/Signup'
-import NewNote from './containers/NewNote';
-import Notes from './containers/Notes';
-import Note from './containers/Note';
+import NewNote from './containers/NewNote'
+import Notes from './containers/Notes'
+import Note from './containers/Note'
+import Pay from './containers/Pay'
 import NotFound from './containers/NotFound'
 
 const Routes = () => (
@@ -27,6 +28,9 @@ const Routes = () => (
     </Route>
     <Route path='/notes'>
       <Notes />
+    </Route>
+    <Route exact path='/Pay'>
+      <Pay />
     </Route>
     <Route>
       <NotFound />
